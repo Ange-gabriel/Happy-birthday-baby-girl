@@ -1,0 +1,318 @@
+/* ==========================================================================
+   THE GABRIEL'S DIARIES — letter.css
+   Lettre avec retours à la ligne respectés, surnoms parfaitement lisibles.
+   ========================================================================== */
+
+.letter-scene{
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8vh 6vw;
+  position: relative;
+}
+
+/* --- Enveloppe --- */
+.envelope-wrap{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.envelope{
+  position: relative;
+  width: min(74vw, 340px);
+  aspect-ratio: 3/2;
+  background: linear-gradient(160deg, #f0e0b8, #ddc48c);
+  border-radius: 6px;
+  box-shadow: 0 34px 70px rgba(0,0,0,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(70px) scale(.82) rotate(-3deg);
+  transition: opacity 1.2s var(--ease), transform 1.2s var(--ease);
+}
+.envelope.is-visible{ opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+.envelope.is-pulsing{ animation: envelope-pulse 1.9s ease-in-out infinite; }
+@keyframes envelope-pulse{
+  0%,100%{ box-shadow: 0 34px 70px rgba(0,0,0,.5), 0 0 0 rgba(232,163,61,0); }
+  50%{ box-shadow: 0 34px 70px rgba(0,0,0,.5), 0 0 44px rgba(232,163,61,.42); }
+}
+.envelope::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, transparent 48%, rgba(0,0,0,.08) 50%, transparent 52%);
+}
+.envelope-flap{
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 56%;
+  background: linear-gradient(160deg, #f6ecd2, #e2c98f);
+  clip-path: polygon(0 0, 100% 0, 50% 92%);
+  transform-origin: top center;
+  transition: transform 1s var(--ease);
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.envelope.is-open .envelope-flap{ transform: rotateX(165deg); }
+.envelope-seal{
+  position: relative;
+  z-index: 2;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--gold-soft), var(--wax) 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  color: #f6ecd2;
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.envelope.is-open .envelope-seal{ opacity: 0; transform: scale(.4); }
+.envelope-hint{
+  position: absolute;
+  bottom: -2.6rem;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ghost-dim);
+}
+
+/* --- Papier de la lettre --- */
+.letter-paper{
+  position: relative;
+  max-width: 580px;
+  width: 100%;
+  max-height: 82vh;
+  overflow-y: auto;
+  background: linear-gradient(160deg, #f4e8c8, #e9d7a8);
+  color: #2b2013;
+  border-radius: 3px;
+  padding: clamp(1.8rem, 6vw, 3.4rem);
+  box-shadow: 0 34px 74px rgba(0,0,0,.5);
+  font-family: var(--font-hand);
+  font-size: clamp(1.05rem, 3.4vw, 1.38rem);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(34px) scale(.9);
+  transition: opacity 1.3s var(--ease), transform 1.3s var(--ease);
+}
+.letter-paper.is-visible{ opacity: 1; transform: none; }
+
+/* chaque ligne du poème est un bloc à part, avec un espacement propre —
+   respecte les retours à la ligne fournis, sans les fusionner */
+.letter-line{
+  margin: 0 0 .35em 0;
+  min-height: 1.1em;
+}
+.letter-paragraph-gap{ height: .7em; }
+
+.letter-paper .word{ display: inline-block; opacity: 0; filter: blur(4px); transform: translateY(8px); transition: opacity .5s var(--ease), filter .5s var(--ease), transform .5s var(--ease); }
+.letter-paper .word.is-visible{ opacity: 1; filter: blur(0); transform: none; }
+
+.letter-to-line{
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 4.8vw, 1.7rem);
+  color: #6b3d10;
+  margin: 1.3rem 0 .5rem;
+  opacity: 0;
+  transition: opacity 1s var(--ease);
+}
+.letter-to-line.is-visible{ opacity: 1; }
+
+.letter-names{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55rem;
+  margin: .5rem 0 1.7rem;
+}
+/* Surnoms — brun-bordeaux foncé, bien contrasté sur le parchemin clair */
+.letter-name{
+  opacity: 0;
+  transform: translateY(10px) scale(.88);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  color: #6b2818;
+  text-shadow: 0 1px 0 rgba(255,255,255,.25);
+}
+.letter-name.is-visible{ opacity: 1; transform: none; }
+.letter-name.is-emphasis{ color: var(--wax); }
+
+.letter-final-line{
+  margin-top: 1.7rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 8vw, 2.7rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--wax);
+  opacity: 0;
+  transform: scale(.88);
+  transition: opacity 1.6s var(--ease), transform 1.6s var(--ease);
+}
+.letter-final-line.is-visible{ opacity: 1; transform: scale(1); }
+
+.letter-continue-hint{
+  position: absolute;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: 0; right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ghost-dim);
+  opacity: 0;
+  transition: opacity 1.4s var(--ease);
+  animation: hint-blink 2.4s ease-in-out infinite;
+}
+.letter-continue-hint.is-visible{ opacity: .8; }
+@keyframes hint-blink{ 0%,100%{opacity:.35;} 50%{opacity:.9;} }
+
+/* ---------- FERMETURE (couverture avec "The end ?...") ---------- */
+.epilogue-scene{
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8vh 6vw;
+}
+.epilogue-cover{
+  position: relative;
+  width: min(66vw, 320px);
+  aspect-ratio: 3/4.3;
+  background: linear-gradient(160deg, var(--leather-lt) 0%, var(--leather) 60%, #150c07 100%);
+  border-radius: 4px 10px 10px 4px;
+  box-shadow: 0 34px 76px rgba(0,0,0,.6), inset 0 0 0 2px rgba(201,161,59,.25);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 9%;
+  opacity: 0;
+  transform: scale(.88);
+  transition: opacity 1.4s var(--ease), transform 1.4s var(--ease);
+}
+.epilogue-cover.is-visible{ opacity: 1; transform: scale(1); }
+.epilogue-cover.is-fading{
+  opacity: 0;
+  transform: scale(.82);
+  transition: opacity 1.5s var(--ease), transform 1.5s var(--ease);
+}
+.epilogue-cover-lines{ text-align: center; font-family: var(--font-hand); color: var(--gold-soft); }
+.epilogue-cover-lines .line{
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+  font-size: clamp(.85rem, 3vw, 1.05rem);
+}
+.epilogue-cover-lines .line.is-visible{ opacity: 1; transform: none; }
+.epilogue-cover-lines .line.beginning{ color: var(--ember); margin-top: .3em; }
+
+.epilogue-final-line{
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 7vw, 2.5rem);
+  color: var(--gold-soft);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.6s var(--ease), transform 1.6s var(--ease);
+  text-shadow: 0 0 32px rgba(232,163,61,.3);
+}
+.epilogue-final-line.is-visible{ opacity: 1; transform: none; }
+
+/* ---------- FINALE — bougie (inchangé) ---------- */
+.finale-scene{
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+  padding: 8vh 6vw;
+  text-align: center;
+}
+.candle{ position: relative; width: 30px; height: 90px; }
+.candle-body{
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 26px; height: 78px;
+  background: linear-gradient(90deg, #f4e8c8, #e9d7a8 45%, #d9c395);
+  border-radius: 3px;
+  box-shadow: inset -3px 0 6px rgba(0,0,0,.15);
+}
+.candle-drip{
+  position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+  width: 32px; height: 10px; background: #f4e8c8;
+  border-radius: 0 0 50% 50% / 0 0 70% 70%;
+}
+.candle-wick{
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  width: 2px; height: 14px; background: #3a2416;
+}
+.candle-flame{
+  position: absolute; top: -34px; left: 50%; transform: translateX(-50%);
+  width: 16px; height: 26px;
+  background: radial-gradient(circle at 50% 70%, #fff6d8 0%, var(--gold-soft) 35%, var(--ember) 65%, rgba(232,163,61,0) 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: flame-flicker 2.4s ease-in-out infinite;
+  filter: blur(.3px);
+}
+@keyframes flame-flicker{
+  0%,100%{ transform: translateX(-50%) scale(1) rotate(0deg); opacity: 1; }
+  25%{ transform: translateX(-52%) scale(1.05,.96) rotate(-3deg); opacity: .96; }
+  50%{ transform: translateX(-48%) scale(.95,1.08) rotate(2deg); opacity: 1; }
+  75%{ transform: translateX(-51%) scale(1.02,.98) rotate(-1deg); opacity: .94; }
+}
+.candle-glow{
+  position: absolute; top: -46px; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 60px;
+  background: radial-gradient(circle, rgba(232,163,61,.35), transparent 70%);
+  animation: glow-pulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes glow-pulse{ 0%,100%{ opacity: .6; } 50%{ opacity: .9; } }
+.candle-smoke{
+  position: absolute; top: -40px; left: 50%; width: 3px; height: 3px;
+  border-radius: 50%; background: rgba(236,220,184,.3);
+  animation: smoke-rise 4s ease-out infinite;
+}
+.candle-smoke:nth-child(2){ animation-delay: 1.3s; }
+.candle-smoke:nth-child(3){ animation-delay: 2.6s; }
+@keyframes smoke-rise{
+  0%{ transform: translate(-50%, 0) scale(1); opacity: 0; }
+  15%{ opacity: .35; }
+  100%{ transform: translate(-30%, -70px) scale(6); opacity: 0; }
+}
+.finale-caption{
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ghost);
+  animation: finale-blink 2.2s ease-in-out infinite;
+}
+@keyframes finale-blink{ 0%,100%{ opacity: .4; } 50%{ opacity: 1; } }
+.finale-sub{
+  font-family: var(--font-hand);
+  font-size: clamp(1rem, 3.6vw, 1.25rem);
+  color: var(--ghost-dim);
+  max-width: 360px;
+}
