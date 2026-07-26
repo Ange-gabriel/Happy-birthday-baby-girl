@@ -5,7 +5,7 @@
    ========================================================================== */
 
 window.DiaryAudio = (function(){
-  const KEYS = ['ambient','glitch','whoosh','type','success','error','pageturn','bookopen','finalchime','song'];
+  const KEYS = ['ambient','glitch','whoosh','type','success','error','pageturn','bookopen','finalchime','diarysong'];
   const els = {};
   KEYS.forEach(k => { els[k] = document.getElementById('snd-' + k); });
 
