@@ -64,6 +64,7 @@ window.DiaryAudio = (function(){
     fadeOutAmbient(1600);
     const el = els.song;
     if(!el) return;
+    el.loop = true;
     clearInterval(songFadeInterval);
     el.volume = 0;
     el.currentTime = 0;

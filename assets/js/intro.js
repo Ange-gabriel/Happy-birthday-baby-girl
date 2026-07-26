@@ -93,6 +93,7 @@ window.IntroFlow = (function(){
     els.stageMoon.hidden = false;
 
     function handleMoonClick(){
+      DiaryAudio.startAmbient();
       els.moonWrap.classList.add('is-clicked');
       DiaryAudio.play('whoosh', { volume: .35 });
       setTimeout(() => {
@@ -235,7 +236,6 @@ window.IntroFlow = (function(){
 
   function start(){
     cacheEls();
-    DiaryAudio.startAmbient();
     startMoonStage();
   }
 

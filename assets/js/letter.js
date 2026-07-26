@@ -46,7 +46,7 @@ window.LetterFlow = (function(){
         </div>
         <div class="letter-paper" id="letter-paper" hidden>
           <div id="letter-body"></div>
-          <p class="letter-to-line" id="letter-to-line">To</p>
+          <p class="letter-to-line" id="letter-to-line">To my</p>
           <div class="letter-names" id="letter-names"></div>
           <p class="letter-final-line" id="letter-final-line"></p>
         </div>
