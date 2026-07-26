@@ -106,7 +106,7 @@ window.HourglassFlow = (function(){
           <div class="stream"></div>
           <div class="sand-bottom"></div>
         </div>
-        <p class="hourglass-caption">Tic tac...</p>
+        <p class="hourglass-caption">Tic tac...⌛</p>
       </div>
     `;
     scene.hidden = false;

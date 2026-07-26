@@ -85,7 +85,7 @@ window.FinaleFlow = (function(){
         </div>
         <p class="finale-caption">une bougie qui attend d'être soufflée...</p>
         <p class="finale-sub">elle brûlera jusqu'à ce que le moment soit venu.</p>
-        <p class="finale-cation">Tic tac...</p>
+        <p class="finale-cation">Tic tac...⌛</p>
       </div>
     `;
     scene.hidden = false;
